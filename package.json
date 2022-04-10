@@ -1,0 +1,15 @@
+{
+  "name": "slide-ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx http-server -c-1 ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bezier-easing": "^2.1.0"
+  }
+}

@@ -6,67 +6,128 @@
     <title>Document</title>
     <link rel="stylesheet" href="index.css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="index.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" defer></script>
+    <script
+      src="node_modules/bezier-easing/dist/bezier-easing.js"
+      defer
+    ></script>
+    <script src="index.mjs" defer></script>
   </head>
-  <body class="bg-gray-200 p-10">
-    <div class="space-y-4">
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-      <p>hoge</p>
-    </div>
+  <body class="bg-gray-200 overflow-hidden">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute inset-0 overflow-y-auto space-y-4 p-10">
+        <textarea
+          id="log"
+          class="block w-full h-[200px] border text-xs"
+        ></textarea>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p><a href class="text-blue-700 underline">hoge</a></p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+        <p>hoge</p>
+      </div>
 
-    <div
-      id="sheet"
-      class="fixed top-full right-0 left-0 h-[100vh] h-[100dvh] bg-white rounded-tl-lg rounded-tr-lg"
-    >
-      <button
-        type="button"
-        id="sheet-control"
-        class="absolute top-[8px] right-0 left-0 w-10 mx-auto"
+      <div
+        id="sheet"
+        class="absolute top-full right-0 h-[calc(100%-16px)] left-0 bg-white rounded-tl-lg rounded-tr-lg px-4 touch-none will-change-transform"
       >
-        <span class="block h-2 rounded-full bg-gray-400"></span>
-      </button>
+        <button
+          type="button"
+          id="sheet-control"
+          class="absolute top-[8px] right-0 left-0 w-10 mx-auto"
+        >
+          <span class="block h-2 rounded-full bg-gray-400"></span>
+        </button>
 
-      <div id="sheet-content" class="mt-10 overflow-y-auto">
-        <div class="space-y-4">
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
-          <p>hoge</p>
+        <div
+          id="sheet-content"
+          class="absolute inset-0 top-[40px] overflow-y-auto"
+        >
+          <div class="space-y-4 p-10">
+            <p>hoge</p>
+            <p>hoge</p>
+            <p>hoge</p>
+            <p><a href class="text-blue-700 underline">hoge</a></p>
+            <p>hoge</p>
+            <p>
+              <button
+                type="button"
+                id="interactive-1"
+                class="border border-current p-2 rounded"
+              >
+                hoge
+              </button>
+            </p>
+            <p>hoge</p>
+            <p><a href class="text-blue-700 underline">hoge</a></p>
+            <p>hoge</p>
+            <p>hoge</p>
+            <p>hoge</p>
+            <p><a href class="text-blue-700 underline">hoge</a></p>
+            <p>hoge</p>
+            <p>hoge</p>
+            <p>hoge</p>
+            <div class="grid grid-cols-3">
+              <a
+                href
+                class="h-[300px] text-blue-700 underline border border-current"
+                >hoge</a
+              >
+              <a
+                href
+                class="h-[300px] text-blue-700 underline border border-current"
+                >hoge</a
+              >
+              <a
+                href
+                class="h-[300px] text-blue-700 underline border border-current"
+                >hoge</a
+              >
+              <a
+                href
+                class="h-[300px] text-blue-700 underline border border-current"
+                >hoge</a
+              >
+              <a
+                href
+                class="h-[300px] text-blue-700 underline border border-current"
+                >hoge</a
+              >
+              <a
+                href
+                class="h-[300px] text-blue-700 underline border border-current"
+                >hoge</a
+              >
+            </div>
+            <p>hoge</p>
+            <p>hoge</p>
+            <p>hoge</p>
+            <p><a href class="text-blue-700 underline">hoge</a></p>
+            <p>hoge</p>
+            <p>hoge</p>
+            <p>hoge</p>
+            <p><a href class="text-blue-700 underline">hoge</a></p>
+            <p>hoge</p>
+            <p>hoge</p>
+            <p>hoge</p>
+            <p><a href class="text-blue-700 underline">hoge</a></p>
+            <p>hoge</p>
+            <p>hoge</p>
+          </div>
         </div>
       </div>
     </div>
