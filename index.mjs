@@ -16,6 +16,9 @@
 // - [ ] スクロールの高さを超える大きさの要素にフォーカスしたときに自動的にフルスクリーンにする
 // - [ ] インタラクティブ要素からスワイプを始めたときの挙動を修正する
 
+import $ from 'https://esm.run/jquery';
+import BezierEasing from 'https://esm.run/bezier-easing';
+
 let state = 0;
 const $sheet = $("#sheet");
 const $control = $("#sheet-control");
