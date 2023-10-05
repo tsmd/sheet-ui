@@ -2,22 +2,24 @@
 // - [x] ポインターを離した位置に応じてシート位置を設定する
 // - [x] iOS Safari のアドレスバーが動いてしまう問題を解消する
 // - [ ] マークアップちゃんとする
-// - [ ] 閉じてるときコンテンツは不可視にする
+// - [x] 閉じてるときコンテンツは不可視にする
 // - [ ] 開閉に応じてコンテンツの高さを変動させる
 // - [x] 全開きのとき、スクロール最上部における下スワイプはシートを閉じる動作になり、それ以外はスクロールできる
-// - [ ] ウィンドウ変化に応じて stops を動かす
+// - [x] ウィンドウ変化に応じて stops を動かす
 // - [x] マルチタッチの配慮（プライマリポインタの決定） https://developer.mozilla.org/ja/docs/Web/API/Pointer_events#determining_the_primary_pointer → うまくいかない
-// - [ ] フリック方向に応じてシート位置を設定する
-// - [ ] フリックの速度に応じてシート位置を設定する
-// - [ ] フリックの速度とシートの動く速度を滑らかに接続する
+// - [x] フリック方向に応じてシート位置を設定する
+// - [x] フリックの速度に応じてシート位置を設定する
+// - [x] フリックの速度とシートの動く速度を滑らかに接続する
 // - [ ] 外部から開閉を制御する
 // - [ ] 外部から新しいシートを作って制御する
 // - [ ] 閉じるボタンで完全に閉じる
 // - [ ] スクロールの高さを超える大きさの要素にフォーカスしたときに自動的にフルスクリーンにする
 // - [ ] インタラクティブ要素からスワイプを始めたときの挙動を修正する
+// - [x] トランジションの途中でシートをつかんだ時トランジションを中断する
+// - [ ] 最上部にいるときにさらに上方向に移動させようとすると重くなる
 
-import $ from 'https://esm.run/jquery';
-import BezierEasing from 'https://esm.run/bezier-easing';
+import $ from "https://esm.run/jquery";
+import BezierEasing from "https://esm.run/bezier-easing";
 
 let state = 0;
 const $sheet = $("#sheet");
@@ -58,6 +60,9 @@ function getStop(state) {
   }
 }
 
+let isMoving = false;
+let cancelFlag = false;
+
 function moveToState(nextState, { v0 = 0, noTransition = false } = {}) {
   state = nextState;
   const stop = -getStop(state);
@@ -70,15 +75,25 @@ function moveToState(nextState, { v0 = 0, noTransition = false } = {}) {
   const start = getYFromMatrix($sheet.css("transform"));
   const startTime = Date.now();
   function tick() {
+    if (cancelFlag) {
+      isMoving = false;
+      cancelFlag = false;
+      $sheet.trigger("movecancel");
+      return;
+    }
     const now = Date.now();
     const t = Math.min((now - startTime) / duration, 1);
     $sheet.css(
       "transform",
       `translateY(${start + (stop - start) * bezier(t)}px)`
     );
-    if (startTime + duration > now) {
-      requestAnimationFrame(tick);
+    if (startTime + duration < now) {
+      isMoving = false;
+      $sheet.trigger("moveend");
+      return;
     }
+    isMoving = true;
+    requestAnimationFrame(tick);
   }
   tick();
 }
@@ -132,8 +147,9 @@ $sheet.on("pointerdown", (e) => {
   log("pointerdown");
   grabbing = true;
   hasMoved = false;
-  // moveToState によって有効化されているかもしれないトランジションを削除
-  $sheet.css("transition", "");
+  if (isMoving) {
+    cancelFlag = true;
+  }
   start = e.clientY;
   pastPositions = [{ pos: start, time: Date.now() }];
   startMatrix = $sheet.css("transform");
@@ -209,6 +225,29 @@ $sheet.on("pointerup", (e) => {
   }
 });
 
+/*
+ * トランジション終わったタイミングでなにかする
+ */
+$sheet.on("moveend", () => {
+  log("moveend");
+  if (state === 0) {
+    setInert(true);
+  } else {
+    setInert(false);
+  }
+});
+$sheet.on("movecancel", () => {
+  log("movecancel");
+});
+
+function setInert(bool) {
+  $content.prop("inert", bool);
+}
+
+$(window).on('resize', () => {
+  moveToState(state, { noTransition: true });
+})
+
 /* ログ */
 const $log = $("#log");
 function log(text) {
@@ -228,3 +267,4 @@ $("#interactive-1").on("click", (e) => {
 });
 
 moveToState(0, { noTransition: true });
+setInert(true);
